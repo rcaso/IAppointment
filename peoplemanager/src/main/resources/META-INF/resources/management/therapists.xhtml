@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Created by IntelliJ IDEA.
+  User: raul
+  Date: 7/11/23
+  Time: 21:34
+-->
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns:f="jakarta.faces.core"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Title</title>
+</h:head>
+
+<h:body>
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">Listado de Terapistas</ui:define>
+        <ui:define name="content">
+            <h:form id="form">
+                <p:growl id="msgs" showDetail="true"/>
+                <div class="card">
+                    <h1>Listado de Terapistas</h1>
+                    <p:toolbar>
+                        <p:toolbarGroup>
+                            <p:commandButton value="Nuevo" icon="pi pi-plus" actionListener="#{therapistView.openNew}"
+                                             update=":dialogs:manage-therapist-content" oncomplete="PF('manageTherapistDialog').show()"
+                                             styleClass="ui-button-success" style="margin-right: .5rem">
+                                <p:resetInput target=":dialogs:manage-therapist-content"/>
+                            </p:commandButton>
+                        </p:toolbarGroup>
+                    </p:toolbar>
+                    <p:dataTable id="therapists" widgetVar="therapists" var="therapist" value="#{therapistView.therapists}" editable="true" style="margin-bottom: 20px">
+                        <p:ajax event="rowEdit" listener="#{therapistView.onRowEdit}" update=":form:msgs"/>
+                        <p:ajax event="rowEditCancel" listener="#{therapistView.onRowCancel}" update=":form:msgs"/>
+                        <p:column headerText="Id">
+                            <h:outputText value="#{therapist.id}"/>
+                        </p:column>
+                        <p:column headerText="Nombre">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText value="#{therapist.name}"/>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:inputText value="#{therapist.name}" style="width: 100%" label="Nombre"/>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Apellido">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText value="#{therapist.lastName}"/>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:inputText value="#{therapist.lastName}" style="width: 100%" label="Apellido"/>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column style="width: 6rem">
+                            <p:rowEditor editTitle="Editar" cancelTitle="Cancelar" saveTitle="Fila Actualizada"/>
+                        </p:column>
+                    </p:dataTable>
+
+                </div>
+            </h:form>
+
+            <h:form id="dialogs">
+                <p:dialog header="Detalles Terapista" showEffect="fade" modal="true" widgetVar="manageTherapistDialog"
+                          responsive="true">
+                    <p:outputPanel id="manage-therapist-content" class="ui-fluid">
+                        <p:outputPanel rendered="#{not empty therapistView.selectedTherapist}">
+                            <div class="field">
+                                <p:outputLabel for="name">Nombre</p:outputLabel>
+                                <p:inputText id="name" value="#{therapistView.selectedTherapist.name}" required="true"/>
+                            </div>
+                            <div class="field">
+                                <p:outputLabel for="lastName">Apellido</p:outputLabel>
+                                <p:inputText id="lastName" value="#{therapistView.selectedTherapist.lastName}" required="true"/>
+                            </div>
+                        </p:outputPanel>
+                    </p:outputPanel>
+                    <f:facet name="footer">
+                        <p:commandButton value="Guardar" icon="pi pi-check" actionListener="#{therapistView.saveTherapist}"
+                                         update="manage-therapist-content" process="manage-therapist-content @this"/>
+                        <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('manageTherapistDialog').hide()"
+                                         class="ui-button-secondary" type="button"/>
+                    </f:facet>
+                </p:dialog>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</h:body>
+
+</html>

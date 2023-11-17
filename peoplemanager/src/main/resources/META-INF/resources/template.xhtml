@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Created by IntelliJ IDEA.
+  User: raul
+  Date: 7/11/23
+  Time: 17:13
+-->
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns:f="jakarta.faces.core"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title>
+        <ui:insert name="title"/>
+    </title>
+    <style type="text/css">
+        /* Estilo para el contenedor principal */
+        .wrapper {
+            display: flex; /* Utiliza un modelo de caja flexible para dividir el espacio */
+        }
+        /* Estilo para el menú lateral */
+        .menu {
+            width: 250px; /* Ancho del menú lateral */
+            /* background-color: #333; /* Color de fondo del menú */
+        }
+        /* Estilo para el contenido principal */
+        .contenido {
+            flex: 1; /* Hace que ocupe el espacio restante */
+            padding: 50px; /* Añade espacio entre el contenido y el menú */
+        }
+    </style>
+</h:head>
+
+<h:body>
+    <div class="wrapper">
+        <div id="menu">
+            <p:panelMenu style="width:250px">
+                <p:submenu label="Administración" expanded="true">
+                    <p:menuitem value="Doctores" ajax="false" url="/management/doctors.xhtml"/>
+                    <p:menuitem value="Terapeutas" ajax="false" url="/management/therapists.xhtml"/>
+                    <p:menuitem value="Profesores" ajax="false" url="/management/teachers.xhtml"/>
+                    <p:menuitem value="Pacientes" ajax="false" url="/management/patients.xhtml"/>
+                </p:submenu>
+                <p:submenu label="Citas Médicas">
+
+                </p:submenu>
+            </p:panelMenu>
+        </div>
+        <span/>
+        <div id="contenido">
+            <ui:insert name="content"/>
+        </div>
+    </div>
+</h:body>
+
+</html>

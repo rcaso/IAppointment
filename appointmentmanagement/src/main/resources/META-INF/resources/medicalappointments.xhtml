@@ -1,0 +1,61 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:f="jakarta.faces.core"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/template/template.xhtml">
+    <ui:define name="title">Citas Médicas</ui:define>
+    <f:metadata>
+        <f:viewAction action="#{medicalCalendarBean.loadSchedule()}"/>
+    </f:metadata>
+    <ui:define name="content">
+        <script type="text/javascript">
+            PrimeFaces.locales['es'] = {
+                closeText: 'cerrar',
+                prevText: 'Anterior',
+                nextText: 'Proximo',
+                currentText: 'Fecha Actual',
+                monthNames: ['Enero', 'Febrero', 'Mazo', 'Abril', 'Mayo', 'Junio',
+                    'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
+                    'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                dayNames: ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'],
+                dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mier', 'Jue', 'Vie', 'Sab'],
+                dayNamesMin: ['D', 'L', 'M', 'Mi', 'J', 'V', 'S'],
+                weekHeader: 'Semana',
+                firstDay: 1,
+                isRTL: false,
+                showMonthAfterYear: false,
+                yearSuffix: '',
+                month: 'Mes',
+                week: 'Semana',
+                day: 'Dia',
+                allDayText: 'Todo el dia'
+            };
+        </script>
+
+        <h:form id="calendar">
+            <div class="ui-g">
+                <div class="ui-g-12">
+                    <p:panel header="Calendario" style="height:100%">
+                        <p:schedule id="cita" value="#{medicalCalendarBean.model}" locale="es" timeZone="GMT-5" draggable="false"
+                                    resizable="false" view="month" minTime="06:00:00"  leftHeaderTemplate="prev,next">
+                            <ui:remove>
+                            <p:ajax event="eventSelect" listener="#{medicalCalendarBean.onEventSelect}"
+                                    update="dialEvent" oncomplete="PF('eventDialog').show();" />
+                            </ui:remove>
+                        </p:schedule>
+                        <f:facet name="actions">
+                            <p:commandButton ajax="false" title="Imprimir" icon="fa fa-fw fa-print" value="Imprimir">
+                                <p:printer target="cita"/>
+                            </p:commandButton>
+                        </f:facet>
+                    </p:panel>
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+
+
+
+</ui:composition>
