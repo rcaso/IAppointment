@@ -1,14 +1,21 @@
 package com.shavatech.domain;
 
+import jakarta.persistence.Embeddable;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Date;
 
+@Embeddable
 public class DateTimeRange {
 
     private LocalDateTime start;
 
     private LocalDateTime end;
+
+    public DateTimeRange(){
+
+    }
 
     public DateTimeRange(LocalDateTime start, LocalDateTime end) {
         this.start = start;

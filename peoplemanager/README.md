@@ -72,3 +72,14 @@ Create your first JPA entity
 Easily start your Reactive RESTful Web Services
 
 [Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
+
+### Crear Imagen Java
+Comando para crear imagen docker para arm64(raspberry pi 4)
+```shell script
+./mvnw clean package install -Dquarkus.container-image.build=true -Dquarkus.container-image.group=rcasov -Dquarkus.container-image.name=peoplemanager -Dquarkus.container-image.tag=1.0 -Dquarkus.docker.buildx.platform=linux/arm64
+```
+### Push image dockehub
+Comando push imagen docker para arm64(raspberry pi 4)
+```shell script
+./mvnw install -Dquarkus.container-image.push=true -Dquarkus.container-image.group=rcasov -Dquarkus.container-image.name=peoplemanager -Dquarkus.container-image.tag=1.0  -Dquarkus.container-image.username=rcasov -Dquarkus.container-image.password=sistemas10
+```

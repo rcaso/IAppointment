@@ -45,8 +45,9 @@
                     <p:menuitem value="Profesores" ajax="false" url="/management/teachers.xhtml"/>
                     <p:menuitem value="Pacientes" ajax="false" url="/management/patients.xhtml"/>
                 </p:submenu>
-                <p:submenu label="Citas Médicas">
-
+                <p:submenu label="Citas Médicas" expanded="true">
+                    <p:menuitem id="m_dashboard" value="Médicas" icon="pi pi-heart" url="#{parameterConfigBean.appointmentappUrl}/medicalappointments.xhtml"/>
+                    <p:menuitem id="m_dashboard_banking" value="Eventos" icon="pi pi-calendar-plus" url="#{parameterConfigBean.appointmentappUrl}/appointments.xhtml"/>
                 </p:submenu>
             </p:panelMenu>
         </div>
