@@ -4,6 +4,7 @@ import com.shavatech.management.domain.entity.SchedulePatient;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import io.quarkus.panache.common.Parameters;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.persistence.EntityManager;
 
 @ApplicationScoped
 public class SchedulePatientRepository implements PanacheRepository<SchedulePatient> {
@@ -19,4 +20,5 @@ public class SchedulePatientRepository implements PanacheRepository<SchedulePati
     public  void update(SchedulePatient schedule){
         getEntityManager().merge(schedule);
     }
+
 }
