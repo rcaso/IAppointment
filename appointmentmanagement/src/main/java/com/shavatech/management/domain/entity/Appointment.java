@@ -139,4 +139,5 @@ public class Appointment extends BaseEntity {
     public void setIsScheduledGoogle(YesNoType isScheduledGoogle) {
         this.isScheduledGoogle = isScheduledGoogle;
     }
+
 }
