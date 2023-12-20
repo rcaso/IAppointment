@@ -29,18 +29,26 @@
             </div>
             
              <ui:include src="./footer.xhtml" />
-           
+            <p:ajaxStatus onerror="console.log('Reload page after ajax error'); location.reload()"/>
+            <p:ajaxExceptionHandler type="javax.faces.application.ViewExpiredException" update="viewExpiredDialog" onexception="PF('viewExpiredDialog').show();" />
+            <p:dialog id="viewExpiredDialog" header="Session expired" widgetVar="viewExpiredDialog" height="500px" onShow="document.location.href = document.location.href;">
+                <h3>Reloading page</h3>
+                Message: #{pfExceptionHandler.message} <br/>
+                StackTrace: <h:outputText value="#{pfExceptionHandler.formattedStackTrace}" escape="false" />
+            </p:dialog>
         </div>
 
-        <p:ajaxStatus styleClass="layout-ajax-loader">
-            <f:facet name="start">
-                <i class="pi pi-spin pi-spinner layout-ajax-loader-icon" aria-hidden="true"/>
-            </f:facet>
+        <ui:insert name="status">
+            <p:ajaxStatus styleClass="status-indicator">
+                <f:facet name="start">
+                    <i class="pi pi-spin pi-spinner" aria-hidden="true"></i>
+                </f:facet>
 
-            <f:facet name="complete">
-                <h:outputText value="" />
-            </f:facet>
-        </p:ajaxStatus>
+                <f:facet name="complete">
+                    <h:outputText value=""/>
+                </f:facet>
+            </p:ajaxStatus>
+        </ui:insert>
 
         <h:outputStylesheet name="css/primeflex.min.css" library="avalon-layout" />
         <h:outputStylesheet name="css/primeicons.css" library="avalon-layout" />
