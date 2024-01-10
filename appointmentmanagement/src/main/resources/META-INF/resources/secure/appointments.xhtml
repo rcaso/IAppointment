@@ -100,10 +100,12 @@
                                     </p:column>
                                 </p:row>
                                 <p:outputLabel for="from" value="Inicio:" />
-                                <p:datePicker id="from" value="#{scheduleCalendarBean.currentAppointmentDTO.start}"  pattern="dd/MM/yyyy HH:mm" showButtonBar="true"/>
+                                <p:datePicker id="from" value="#{scheduleCalendarBean.currentAppointmentDTO.start}"  pattern="dd/MM/yyyy HH:mm" showButtonBar="true" timeInput="true">
+                                    <p:ajax event="dateSelect" listener="#{scheduleCalendarBean.onDateFromSelect}" update="to"/>
+                                </p:datePicker>
 
                                 <p:outputLabel for="to" value="Termino:" />
-                                <p:datePicker id="to" value="#{scheduleCalendarBean.currentAppointmentDTO.end}"   showButtonBar="true" pattern="dd/MM/yyyy HH:mm"/>
+                                <p:datePicker id="to" value="#{scheduleCalendarBean.currentAppointmentDTO.end}"   showButtonBar="true" pattern="dd/MM/yyyy HH:mm" timeInput="true"/>
 
                                 <p:outputLabel for="notification" value="Enviar notificación"/>
                                 <p:selectBooleanCheckbox id="notification" value="#{scheduleCalendarBean.currentAppointmentDTO.scheduleGoogle}"/>

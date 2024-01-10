@@ -6,6 +6,8 @@ import com.shavatech.management.application.service.PeopleResource;
 import com.shavatech.management.application.service.SchedulePatientResource;
 import com.shavatech.management.domain.entity.AppointmentType;
 import jakarta.annotation.PostConstruct;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -118,6 +120,11 @@ public class ScheduleCalendarBean implements Serializable {
         //Crear nueva cita
         var event = DefaultScheduleEvent.builder().startDate(selectDate.getObject()).endDate(selectDate.getObject().plusMinutes(45)).build();
         currentAppointmentDTO = loadScheduleEvent(event);
+    }
+
+    public void onDateFromSelect(SelectEvent<LocalDateTime> event) {
+        LocalDateTime start = event.getObject();
+        currentAppointmentDTO.setEnd(start.plusMinutes(45));
     }
 
     private AppointmentDTO loadScheduleEvent(DefaultScheduleEvent event){

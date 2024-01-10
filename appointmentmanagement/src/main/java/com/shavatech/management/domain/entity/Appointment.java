@@ -2,7 +2,7 @@ package com.shavatech.management.domain.entity;
 
 import com.shavatech.domain.BaseEntity;
 import com.shavatech.domain.DateTimeRange;
-import com.shavatech.management.domain.events.AppointmentGoogleConfiguratedEvent;
+import com.shavatech.management.domain.events.AppointmentGoogleUpdatedEvent;
 import com.shavatech.management.domain.events.AppointmentGoogleDeleteEvent;
 import jakarta.persistence.*;
 
@@ -57,6 +57,7 @@ public class Appointment extends BaseEntity {
     public void updateStartTime(DateTimeRange newStartTime){
         if(!timeRange.getStart().isEqual(newStartTime.getStart())){
             timeRange = newStartTime;
+            getEvents().add(new AppointmentGoogleUpdatedEvent(this));
         }
     }
 
@@ -64,7 +65,7 @@ public class Appointment extends BaseEntity {
         if(!isScheduledGoogle.getValue().equals(notificate.getValue())){
             isScheduledGoogle = notificate;
             switch (isScheduledGoogle) {
-                case YES -> getEvents().add(new AppointmentGoogleConfiguratedEvent(this));
+                case YES -> getEvents().add(new AppointmentGoogleUpdatedEvent(this));
                 case NO -> getEvents().add(new AppointmentGoogleDeleteEvent(this));
             }
         }
