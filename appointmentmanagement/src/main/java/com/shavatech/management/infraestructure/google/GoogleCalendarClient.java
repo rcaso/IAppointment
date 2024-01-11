@@ -22,6 +22,14 @@ public interface GoogleCalendarClient {
     @Path("/events")
     public JsonObject addEvent(@QueryParam("sendUpdates") String sendUpdates, Event event);
 
+    @PUT
+    @Path("/events/{eventId}")
+    public JsonObject updateEvent(@PathParam("eventId") String eventId, Event event);
+
+    @DELETE
+    @Path("/events/{eventId}")
+    public void  deleteEvent(@QueryParam("sendUpdates") String sendUpdates, @PathParam("eventId") String eventId);
+
     @ClientExceptionMapper
     static RuntimeException toException(Response response) {
         return new WebApplicationException(response);

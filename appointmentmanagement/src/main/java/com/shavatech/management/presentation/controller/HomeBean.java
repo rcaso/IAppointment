@@ -68,8 +68,9 @@ public class HomeBean implements Serializable {
             scopes = scope.get().toString();
         }
         refreshTokenLabel = refreshToken.getToken();
-        ZonedDateTime now = ZonedDateTime.of(LocalDate.of(2022,12,31), LocalTime.of(23,59,59), ZoneId.of("-05:00"));
-        JsonObject calendar = googleCalendarClient.list("2022-12-31T23:59:59-05:00");
+        //ZonedDateTime now = ZonedDateTime.of(LocalDate.of(2022,12,31), LocalTime.of(23,59,59), ZoneId.of("-05:00"));
+        var year =LocalDate.now().getYear()-1;
+        JsonObject calendar = googleCalendarClient.list(year+"-12-31T23:59:59-05:00");
         events = new ArrayList<>();
         if (calendar != null){
             JsonArray eventResult = calendar.getJsonArray("items");

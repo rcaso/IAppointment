@@ -81,11 +81,12 @@ public class SchedulePatientResource {
                 a.updateStartTime(appointment.getTimeRange());
             }
         });
+        schedule.markConflictedAppintments();
         schedulePatientRepository.update(schedule);
     }
 
     @DELETE
-    @Path(("/{schedule}/{appointment}"))
+    @Path("/{schedule}/{appointment}")
     @Transactional
     public void deleteAppointment(@PathParam("schedule") String scheduleId,@PathParam("appointment") String appointmentId){
         SchedulePatient schedule = schedulePatientRepository.find("id= ?1",UUID.fromString(scheduleId)).firstResult();

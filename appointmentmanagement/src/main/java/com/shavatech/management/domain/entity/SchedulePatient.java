@@ -38,6 +38,8 @@ public class SchedulePatient extends AggregateRoot {
             conflicted.forEach( c-> c.setIsConflicted(YesNoType.YES));
             if(conflicted != null && !conflicted.isEmpty()){
                 appointment.setIsConflicted(YesNoType.YES);
+            } else {
+                appointment.setIsConflicted(YesNoType.NO);
             }
         }
     }
