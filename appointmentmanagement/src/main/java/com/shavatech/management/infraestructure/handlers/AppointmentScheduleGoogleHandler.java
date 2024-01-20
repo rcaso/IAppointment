@@ -66,11 +66,28 @@ public class AppointmentScheduleGoogleHandler {
         try {
             logger.info("Actualizar Cita Google Calendar: " + appointment.getTitle());
             var calendarEvent = googleCalendarEventsRepository.getGoogleEventFromAppointment(appointment.getId().toString());
-            String googleEventId = calendarEvent.getIdGoogleEvent();
-            var googleEvent = createGoogleEvent(appointment);
-            JsonObject result = googleCalendarClient.updateEvent(googleEventId,googleEvent);
-            String htmlLink = result.getString("htmlLink");
-            logger.info("evento actualizado en Google Calendar : "+htmlLink);
+            if(calendarEvent != null){
+                //actualiza Calendar
+                String googleEventId = calendarEvent.getIdGoogleEvent();
+                var googleEvent = createGoogleEvent(appointment);
+                JsonObject result = googleCalendarClient.updateEvent(googleEventId,googleEvent);
+                String htmlLink = result.getString("htmlLink");
+                logger.info("evento actualizado en Google Calendar : "+htmlLink);
+            } else {
+                // se creo la cita anteriormente sin agendar en Google
+                var googleEvent = createGoogleEvent(appointment);
+                JsonObject result = googleCalendarClient.addEvent("all",googleEvent);
+                String idGoogleEvent = result.getString("id");
+                String htmlLink = result.getString("htmlLink");
+                String appointmentId = appointment.getId().toString();
+                GoogleCalendarEvents calendarEvents = new GoogleCalendarEvents();
+                calendarEvents.setIdGoogleEvent(idGoogleEvent);
+                calendarEvents.setIdAppointment(appointmentId);
+                calendarEvents.setHtmlLink(htmlLink);
+                calendarEvents = googleCalendarEventsRepository.saveOrMerge(calendarEvents);
+                logger.info("evento registrado en Google Calendar : "+calendarEvents.getHtmlLink());
+            }
+
         } catch (Exception exception) {
             logger.log(Level.ERROR, exception.getMessage());
             exception.printStackTrace();
@@ -101,9 +118,16 @@ public class AppointmentScheduleGoogleHandler {
         DateTimeEvent end = new DateTimeEvent(appointment.getTimeRange().getEnd().plusSeconds(5).toString());
         googleEvent.setEnd(end);
         List<Attendee> attendees = new ArrayList<>();
-        // default invitados al evento
-        attendees.add(new Attendee("feve18@gmail.com"));
-        attendees.add(new Attendee("anbaal@gmail.com"));
+        if(appointment.getAsistentes() != null && !appointment.getAsistentes().isBlank()){
+            String[] correos = appointment.getAsistentes().split(",");
+            for(int i =0; i< correos.length; i++){
+                attendees.add(new Attendee(correos[i]));
+            }
+        } else {
+            // default invitados al evento
+            attendees.add(new Attendee("feve18@gmail.com"));
+            attendees.add(new Attendee("anbaal@gmail.com"));
+        }
         googleEvent.setAttendees(attendees);
         Reminders reminders = new Reminders();
         reminders.setUseDefault(false);

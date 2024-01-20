@@ -57,7 +57,7 @@
                             </p:commandButton>
                         </f:facet>
                     </p:panel>
-                    <p:dialog id="dialEvent" widgetVar="eventDialog" header="Detalle" closeOnEscape="true" showEffect="clip" hideEffect="clip" responsive="true" modal="true" width="460">
+                    <p:dialog id="dialEvent" widgetVar="eventDialog" header="Detalle" closeOnEscape="true" showEffect="clip" hideEffect="clip" responsive="true" modal="true" width="580">
                         <f:facet name="header">
                             <p:commandButton actionListener="#{scheduleCalendarBean.deleteShedule}" value="Borrar"
                                              rendered="#{scheduleCalendarBean.currentAppointmentDTO.id != null}" process="@this"
@@ -83,6 +83,7 @@
                                     </p:column>
                                     <p:column>
                                         <p:selectOneMenu id="teacher" value="#{scheduleCalendarBean.currentAppointmentDTO.teacherId}">
+                                            <p:ajax process="@this"/>
                                             <f:selectItem itemLabel="Seleccione" itemValue="" />
                                             <f:selectItems value="#{scheduleCalendarBean.teachers}"/>
                                         </p:selectOneMenu>
@@ -94,6 +95,7 @@
                                     </p:column>
                                     <p:column>
                                         <p:selectOneMenu id="therapist" value="#{scheduleCalendarBean.currentAppointmentDTO.therapistId}">
+                                            <p:ajax process="@this"/>
                                             <f:selectItem itemLabel="Seleccione" itemValue="" />
                                             <f:selectItems value="#{scheduleCalendarBean.therapists}"/>
                                         </p:selectOneMenu>
@@ -108,8 +110,21 @@
                                 <p:datePicker id="to" value="#{scheduleCalendarBean.currentAppointmentDTO.end}"   showButtonBar="true" pattern="dd/MM/yyyy HH:mm" timeInput="true"/>
 
                                 <p:outputLabel for="notification" value="Enviar notificación"/>
-                                <p:selectBooleanCheckbox id="notification" value="#{scheduleCalendarBean.currentAppointmentDTO.scheduleGoogle}"/>
+                                <p:selectBooleanCheckbox id="notification" value="#{scheduleCalendarBean.currentAppointmentDTO.scheduleGoogle}">
+                                    <p:ajax process="@this" update="dateModal"/>
+                                </p:selectBooleanCheckbox>
 
+                                <p:row id="rcorreos" rendered="#{scheduleCalendarBean.currentAppointmentDTO.scheduleGoogle}">
+                                    <p:column>
+                                        <p:outputLabel id="lcorreos" for="correos" value="Agregar correos asistentes"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText id="correos" value="#{scheduleCalendarBean.currentAppointmentDTO.correos}" placeholder="Separados por ,"/>
+                                    </p:column>
+                                    <p:column colspan="2">
+                                        <small class="block">feve18@gmail.com,anbaal@gmail.com,raquelandrea2609@gmail.com</small>
+                                    </p:column>
+                                </p:row>
                             </p:panelGrid>
                         </p:outputPanel>
                     </p:dialog>

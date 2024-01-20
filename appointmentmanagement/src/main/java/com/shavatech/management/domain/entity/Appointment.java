@@ -29,11 +29,13 @@ public class Appointment extends BaseEntity {
 
     private YesNoType isScheduledGoogle;
 
+    private String asistentes;
+
     public void updateType(AppointmentType newType){
         if (type.getValue().equals(newType.getValue())) return;
 
         type = newType;
-        if(type.equals(AppointmentType.EDUCATIONAL.getValue())){
+        if(type.equals(AppointmentType.EDUCATIONAL)){
             therapistId=null;
         } else {
             teacherId=null;
@@ -41,15 +43,15 @@ public class Appointment extends BaseEntity {
     }
 
     public void updateTeacher(String newTeacherId){
-        if(type.equals(AppointmentType.EDUCATIONAL.getValue()) &&
-            !teacherId.equals(newTeacherId)){
+        if(type.equals(AppointmentType.EDUCATIONAL) &&
+                (teacherId == null || !teacherId.equals(newTeacherId))){
             teacherId = newTeacherId;
         }
     }
 
     public void updateTherapist(String newTherapistId){
-        if(type.equals(AppointmentType.THERAPY.getValue()) &&
-                !therapistId.equals(newTherapistId)){
+        if(type.equals(AppointmentType.THERAPY) &&
+                (therapistId == null || !therapistId.equals(newTherapistId))){
             therapistId = newTherapistId;
         }
     }
@@ -66,14 +68,26 @@ public class Appointment extends BaseEntity {
             isScheduledGoogle = notificate;
             switch (isScheduledGoogle) {
                 case YES -> getEvents().add(new AppointmentGoogleUpdatedEvent(this));
-                case NO -> getEvents().add(new AppointmentGoogleDeleteEvent(this));
+                case NO -> {
+                    asistentes = null;
+                    getEvents().add(new AppointmentGoogleDeleteEvent(this));
+                }
             }
         }
     }
 
     public void updateTitle(String newTitle){
-        if(!title.equals(newTitle)){
+        if(title == null || !title.equals(newTitle)){
             title=newTitle;
+        }
+    }
+
+    public void updateAsistentes(String newAsistentes){
+        if(isScheduledGoogle.equals(YesNoType.YES)){
+            if(asistentes == null || !asistentes.equals(newAsistentes)){
+                asistentes = newAsistentes;
+                getEvents().add(new AppointmentGoogleUpdatedEvent(this));
+            }
         }
     }
 
@@ -141,4 +155,11 @@ public class Appointment extends BaseEntity {
         this.isScheduledGoogle = isScheduledGoogle;
     }
 
+    public String getAsistentes() {
+        return asistentes;
+    }
+
+    public void setAsistentes(String asistentes) {
+        this.asistentes = asistentes;
+    }
 }

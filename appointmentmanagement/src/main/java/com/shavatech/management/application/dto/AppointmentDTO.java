@@ -27,6 +27,8 @@ public class AppointmentDTO implements Serializable {
 
     private boolean isScheduleGoogle;
 
+    private String correos;
+
 
 
     public AppointmentDTO(String appointmentType, String title, String scheduleId, String teacherId, String therapistId, LocalDateTime start, LocalDateTime end, boolean isConflicted, boolean isScheduleGoogle) {
@@ -131,5 +133,13 @@ public class AppointmentDTO implements Serializable {
 
     public void setPatientId(String patientId) {
         this.patientId = patientId;
+    }
+
+    public String getCorreos() {
+        return correos;
+    }
+
+    public void setCorreos(String correos) {
+        this.correos = correos;
     }
 }

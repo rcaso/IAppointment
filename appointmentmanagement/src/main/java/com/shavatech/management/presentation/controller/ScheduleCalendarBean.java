@@ -77,7 +77,6 @@ public class ScheduleCalendarBean implements Serializable {
     }
 
     public void saveAppointment(){
-        String title;
         if(currentAppointmentDTO.getAppointmentType().equals(AppointmentType.THERAPY.getValue())){
             therapists.forEach((k,v )-> {
                 if(v.equals(currentAppointmentDTO.getTherapistId())){
