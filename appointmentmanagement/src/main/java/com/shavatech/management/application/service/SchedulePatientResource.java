@@ -75,6 +75,7 @@ public class SchedulePatientResource {
             if(a.getId().equals(appointment.getId())){
                 a.updateType(appointment.getType());
                 a.updateScheduleGoogle(appointment.getIsScheduledGoogle());
+                a.updateAsistentes(appointment.getAsistentes());
                 a.updateTeacher(appointment.getTeacherId());
                 a.updateTherapist(appointment.getTherapistId());
                 a.updateTitle(appointment.getTitle());
@@ -90,11 +91,10 @@ public class SchedulePatientResource {
     @Transactional
     public void deleteAppointment(@PathParam("schedule") String scheduleId,@PathParam("appointment") String appointmentId){
         SchedulePatient schedule = schedulePatientRepository.find("id= ?1",UUID.fromString(scheduleId)).firstResult();
-        if(schedule.getAppointments().removeIf(a->a.getId().equals(UUID.fromString(appointmentId)))){
+        if(schedule.deleteAppointment(UUID.fromString(appointmentId))){
             schedulePatientRepository.update(schedule);
             logger.info("Cita eliminada:"+appointmentId);
         }
-
     }
 
     private SchedulePatientDTO convertToDTO(SchedulePatient schedule){
@@ -112,6 +112,7 @@ public class SchedulePatientResource {
             appointment.setTherapistId(s.getTherapistId());
             appointment.setStart(s.getTimeRange().getStart());
             appointment.setEnd(s.getTimeRange().getEnd());
+            appointment.setCorreos(s.getAsistentes());
             if (s.getIsConflicted().getValue().equals(YesNoType.YES.getValue())) {
                 appointment.setConflicted(true);
             } else {
@@ -149,6 +150,7 @@ public class SchedulePatientResource {
             appointment.setTimeRange(timeRange);
             appointment.setIsConflicted(s.isConflicted()?YesNoType.YES:YesNoType.NO);
             appointment.setIsScheduledGoogle(s.isScheduleGoogle()?YesNoType.YES:YesNoType.NO);
+            appointment.setAsistentes(s.getCorreos());
             return appointment;
         }).toList();
         schedule.setAppointments(appointments);
@@ -168,6 +170,7 @@ public class SchedulePatientResource {
         appointment.setTimeRange(timeRange);
         appointment.setIsConflicted(appointmentDTO.isConflicted()?YesNoType.YES:YesNoType.NO);
         appointment.setIsScheduledGoogle(appointmentDTO.isScheduleGoogle()?YesNoType.YES:YesNoType.NO);
+        appointment.setAsistentes(appointmentDTO.getCorreos()!=null?appointmentDTO.getCorreos().strip():null);
         return  appointment;
     }
 }

@@ -1,10 +1,12 @@
 package com.shavatech.management.domain.entity;
 
 import com.shavatech.domain.AggregateRoot;
+import com.shavatech.management.domain.events.AppointmentGoogleDeleteEvent;
 import com.shavatech.management.domain.events.AppointmentScheduledEvent;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "schedule_patient")
@@ -24,6 +26,25 @@ public class SchedulePatient extends AggregateRoot {
         appointments.add(appointment);
         markConflictedAppintments();
         getEvents().add(new AppointmentScheduledEvent(appointment));
+    }
+
+    public boolean deleteAppointment(UUID idAppointment){
+        //TODO implementar borrado
+        boolean eliminado = false;
+        Appointment appointmentDeleted = null;
+        for(Appointment appointment : appointments){
+            if(appointment.getId().equals(idAppointment)){
+                appointmentDeleted = appointment;
+                break;
+            }
+        }
+        if(appointmentDeleted != null){
+            appointments.remove(appointmentDeleted);
+            markConflictedAppintments();
+            getEvents().add(new AppointmentGoogleDeleteEvent(appointmentDeleted));
+            eliminado = true;
+        }
+        return eliminado;
     }
 
     public void markConflictedAppintments(){
