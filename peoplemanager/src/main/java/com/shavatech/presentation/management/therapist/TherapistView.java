@@ -2,6 +2,7 @@ package com.shavatech.presentation.management.therapist;
 
 import com.shavatech.domain.management.boundary.DoctorRecord;
 import com.shavatech.domain.management.boundary.TherapistRecord;
+import com.shavatech.domain.management.boundary.TherapistResource;
 import com.shavatech.presentation.management.doctor.DoctorDTO;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.application.FacesMessage;
@@ -21,8 +22,8 @@ import java.util.List;
 public class TherapistView implements Serializable {
 
     @Inject
-    @RestClient
-    TherapistService therapistService;
+    //@RestClient
+    TherapistResource therapistService;
 
     private List<TherapistDTO> therapists;
 

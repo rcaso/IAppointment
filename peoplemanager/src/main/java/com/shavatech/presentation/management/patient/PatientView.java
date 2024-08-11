@@ -1,6 +1,7 @@
 package com.shavatech.presentation.management.patient;
 
 import com.shavatech.domain.management.boundary.PatientRecord;
+import com.shavatech.domain.management.boundary.PatientResource;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
@@ -19,8 +20,8 @@ import java.util.List;
 public class PatientView implements Serializable {
 
     @Inject
-    @RestClient
-    PatientService patientService;
+    //@RestClient
+    PatientResource patientService;
 
     private List<PatientDTO> patients;
 
