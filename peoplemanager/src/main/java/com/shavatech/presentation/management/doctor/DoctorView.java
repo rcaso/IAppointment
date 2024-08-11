@@ -1,6 +1,7 @@
 package com.shavatech.presentation.management.doctor;
 
 import com.shavatech.domain.management.boundary.DoctorRecord;
+import com.shavatech.domain.management.boundary.DoctorResource;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
@@ -19,8 +20,8 @@ import java.util.List;
 public class DoctorView implements Serializable {
 
     @Inject
-    @RestClient
-    DoctorService doctorService;
+    //@RestClient
+    DoctorResource doctorService;
 
     private List<DoctorDTO> doctors;
 

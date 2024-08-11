@@ -19,13 +19,13 @@
 </h:head>
 
 <h:body>
-    <ui:composition template="/template.xhtml">
+    <ui:composition template="/template/template.xhtml">
         <ui:define name="title">Listado de Profesores</ui:define>
         <ui:define name="content">
             <h:form id="form">
                 <p:growl id="msgs" showDetail="true"/>
                 <div class="card">
-                    <h1>Listado de Terapistas</h1>
+                    <h1>Listado de Profesores</h1>
                     <p:toolbar>
                         <p:toolbarGroup>
                             <p:commandButton value="Nuevo" icon="pi pi-plus" actionListener="#{teacherView.openNew}"

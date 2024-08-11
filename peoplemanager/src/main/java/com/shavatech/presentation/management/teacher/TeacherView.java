@@ -1,6 +1,7 @@
 package com.shavatech.presentation.management.teacher;
 
 import com.shavatech.domain.management.boundary.TeacherRecord;
+import com.shavatech.domain.management.boundary.TeacherResource;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
@@ -19,8 +20,8 @@ import java.util.List;
 public class TeacherView implements Serializable {
 
     @Inject
-    @RestClient
-    TeacherService teacherService;
+    //@RestClient
+    TeacherResource teacherService;
 
     private List<TeacherDTO> teachers;
 
