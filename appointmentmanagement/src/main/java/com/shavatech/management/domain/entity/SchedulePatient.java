@@ -1,12 +1,20 @@
 package com.shavatech.management.domain.entity;
 
 import com.shavatech.domain.AggregateRoot;
+import com.shavatech.domain.DateTimeRange;
 import com.shavatech.management.domain.events.AppointmentGoogleDeleteEvent;
 import com.shavatech.management.domain.events.AppointmentScheduledEvent;
 import jakarta.persistence.*;
+import org.apache.poi.ss.formula.functions.Days;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import static java.time.temporal.ChronoUnit.DAYS;
+import static java.time.temporal.ChronoUnit.WEEKS;
 
 @Entity
 @Table(name = "schedule_patient")
@@ -26,6 +34,59 @@ public class SchedulePatient extends AggregateRoot {
         appointments.add(appointment);
         markConflictedAppintments();
         getEvents().add(new AppointmentScheduledEvent(appointment));
+    }
+
+    public void addRepeatNewAppointment(Appointment appointment, RepeatType repeatType, LocalDate endDate ){
+        if(repeatType != null && repeatType != RepeatType.NO && endDate != null){
+            //Registramos para cita base
+            addNewAppointment(appointment);
+            //Creamos citas para las siguientes repeticiones
+            List<Appointment> nextDates = generateNextAppointments(repeatType,appointment,endDate);
+            nextDates.forEach(this::addNewAppointment);
+        } else {
+            addNewAppointment(appointment);
+        }
+    }
+
+    private List<Appointment> generateNextAppointments(RepeatType repeatType,Appointment appointment, LocalDate endDate ){
+        List<Appointment> nextDates = new ArrayList<>();
+        LocalDate initialDate = appointment.getTimeRange().getEnd().toLocalDate();
+        long rangeMax =0;
+        if(repeatType == RepeatType.WEEKLY){
+            rangeMax = WEEKS.between(initialDate,endDate);
+        } else {
+            rangeMax = DAYS.between(initialDate,endDate);
+        }
+        for(int i=1;i<=rangeMax;i++){
+            Appointment newAppointment = null;
+            DateTimeRange timeRange = null;
+            if(repeatType == RepeatType.WEEKLY){
+                LocalDateTime start = appointment.getTimeRange().getStart().plusWeeks(i);
+                LocalDateTime end = appointment.getTimeRange().getEnd().plusWeeks(i);
+                timeRange = new DateTimeRange(start, end);
+            } else {
+                LocalDateTime start = appointment.getTimeRange().getStart().plusDays(i);
+                LocalDateTime end = appointment.getTimeRange().getEnd().plusDays(i);
+                timeRange = new DateTimeRange(start, end);
+            }
+            newAppointment = createNextAppointment(appointment, timeRange);
+            nextDates.add(newAppointment);
+        }
+        return nextDates;
+    }
+
+    private Appointment createNextAppointment(Appointment baseAppointment,DateTimeRange dateTimeRange){
+        Appointment appointment = new Appointment();
+        appointment.setTimeRange(dateTimeRange);
+        appointment.setTitle(baseAppointment.getTitle());
+        appointment.setType(baseAppointment.getType());
+        appointment.setTeacherId(baseAppointment.getTeacherId());
+        appointment.setTherapistId(baseAppointment.getTherapistId());
+        appointment.setDoctorId(baseAppointment.getDoctorId());
+        appointment.setIsConflicted(baseAppointment.getIsConflicted());
+        appointment.setIsScheduledGoogle(baseAppointment.getIsScheduledGoogle());
+        appointment.setAsistentes(baseAppointment.getAsistentes());
+        return appointment;
     }
 
     public boolean deleteAppointment(UUID idAppointment){

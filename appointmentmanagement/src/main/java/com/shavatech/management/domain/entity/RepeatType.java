@@ -1,15 +1,13 @@
 package com.shavatech.management.domain.entity;
 
 import java.util.Arrays;
-import java.util.stream.Stream;
 
-public enum AppointmentType {
-
-    THERAPY("T"), EDUCATIONAL("E"), MEDICAL("M");
+public enum RepeatType {
+    NO("N"),DIARY("D"),WEEKLY("W");
 
     private String value;
 
-    private AppointmentType(String value){
+    private RepeatType(String value){
         this.value=value;
     }
 
@@ -17,8 +15,8 @@ public enum AppointmentType {
         return value;
     }
 
-    public static AppointmentType of(String value){
-        return Arrays.stream(AppointmentType.values()).
+    public static RepeatType of(String value){
+        return Arrays.stream(RepeatType.values()).
                 filter(a->a.getValue().equals(value)).
                 findFirst().orElseThrow(IllegalArgumentException::new);
     }

@@ -61,7 +61,8 @@ public class SchedulePatientResource {
             schedulePatientRepository.persistAndFlush(schedule);
             schedule.setAppointments(new ArrayList<>());
         }
-        schedule.addNewAppointment(appointment);
+        schedule.addRepeatNewAppointment(appointment,RepeatType.of(appointmentDTO.getRepeatType()),appointmentDTO.getEndRepeatDate());
+        //schedule.addNewAppointment(appointment);
         schedulePatientRepository.update(schedule);
     }
 
@@ -110,6 +111,7 @@ public class SchedulePatientResource {
             appointment.setTitle(s.getTitle());
             appointment.setTeacherId(s.getTeacherId());
             appointment.setTherapistId(s.getTherapistId());
+            appointment.setDoctorId(s.getDoctorId());
             appointment.setStart(s.getTimeRange().getStart());
             appointment.setEnd(s.getTimeRange().getEnd());
             appointment.setCorreos(s.getAsistentes());
@@ -146,6 +148,7 @@ public class SchedulePatientResource {
             appointment.setType(AppointmentType.of(s.getAppointmentType()));
             appointment.setTeacherId(s.getTeacherId());
             appointment.setTherapistId(s.getTherapistId());
+            appointment.setDoctorId(s.getDoctorId());
             DateTimeRange timeRange = new DateTimeRange(s.getStart(),s.getEnd());
             appointment.setTimeRange(timeRange);
             appointment.setIsConflicted(s.isConflicted()?YesNoType.YES:YesNoType.NO);
@@ -166,6 +169,7 @@ public class SchedulePatientResource {
         appointment.setType(AppointmentType.of(appointmentDTO.getAppointmentType()));
         appointment.setTeacherId(appointmentDTO.getTeacherId());
         appointment.setTherapistId(appointmentDTO.getTherapistId());
+        appointment.setDoctorId(appointmentDTO.getDoctorId());
         DateTimeRange timeRange = new DateTimeRange(appointmentDTO.getStart(),appointmentDTO.getEnd());
         appointment.setTimeRange(timeRange);
         appointment.setIsConflicted(appointmentDTO.isConflicted()?YesNoType.YES:YesNoType.NO);

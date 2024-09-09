@@ -76,6 +76,7 @@
                                     <f:selectItem itemLabel="Seleccione" itemValue="" />
                                     <f:selectItem itemLabel="Terapia" itemValue="T" />
                                     <f:selectItem itemLabel="Educacional" itemValue="E" />
+                                    <f:selectItem itemLabel="Médica" itemValue="M" />
                                 </p:selectOneMenu>
                                 <p:row id="rteacher" rendered="#{scheduleCalendarBean.currentAppointmentDTO.appointmentType=='E'}">
                                     <p:column>
@@ -101,6 +102,18 @@
                                         </p:selectOneMenu>
                                     </p:column>
                                 </p:row>
+                                <p:row id="rdoctor" rendered="#{scheduleCalendarBean.currentAppointmentDTO.appointmentType=='M'}">
+                                    <p:column>
+                                        <p:outputLabel id="ldoctor" for="doctor" value="Doctor:" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:selectOneMenu id="doctor" value="#{scheduleCalendarBean.currentAppointmentDTO.doctorId}">
+                                            <p:ajax process="@this"/>
+                                            <f:selectItem itemLabel="Seleccione" itemValue="" />
+                                            <f:selectItems value="#{scheduleCalendarBean.doctors}"/>
+                                        </p:selectOneMenu>
+                                    </p:column>
+                                </p:row>
                                 <p:outputLabel for="from" value="Inicio:" />
                                 <p:datePicker id="from" value="#{scheduleCalendarBean.currentAppointmentDTO.start}"  pattern="dd/MM/yyyy HH:mm" showButtonBar="true" timeInput="true">
                                     <p:ajax event="dateSelect" listener="#{scheduleCalendarBean.onDateFromSelect}" update="to"/>
@@ -108,6 +121,25 @@
 
                                 <p:outputLabel for="to" value="Termino:" />
                                 <p:datePicker id="to" value="#{scheduleCalendarBean.currentAppointmentDTO.end}"   showButtonBar="true" pattern="dd/MM/yyyy HH:mm" timeInput="true"/>
+
+                                <p:outputLabel for="repeatType" value="Repetir:" />
+                                <p:selectOneMenu id="repeatType" value="#{scheduleCalendarBean.currentAppointmentDTO.repeatType}" rendered="#{scheduleCalendarBean.currentAppointmentDTO.id == null}" >
+                                    <p:ajax process="@this" update="dateModal"/>
+                                    <f:selectItem itemLabel="No se repite" itemValue="N" />
+                                    <f:selectItem itemLabel="Diariamente" itemValue="D" />
+                                    <f:selectItem itemLabel="Semanalmente" itemValue="W" />
+                                </p:selectOneMenu>
+
+                                <p:row id="rrepetir" rendered="#{scheduleCalendarBean.currentAppointmentDTO.repeatType !='N'}">
+                                    <p:column>
+                                        <p:outputLabel id="lrepetir" for="repetir" value="Repetir hasta:" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:datePicker id="repetir" value="#{scheduleCalendarBean.currentAppointmentDTO.endRepeatDate}" pattern="dd/MM/yyyy" showIcon="true" mask="true" showOnFocus="false">
+                                            <p:ajax process="@this"/>
+                                        </p:datePicker>
+                                    </p:column>
+                                </p:row>
 
                                 <p:outputLabel for="notification" value="Enviar notificación"/>
                                 <p:selectBooleanCheckbox id="notification" value="#{scheduleCalendarBean.currentAppointmentDTO.scheduleGoogle}">
