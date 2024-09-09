@@ -1,6 +1,7 @@
 package com.shavatech.management.application.dto;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class AppointmentDTO implements Serializable {
@@ -19,6 +20,8 @@ public class AppointmentDTO implements Serializable {
 
     private String therapistId;
 
+    private  String doctorId;;
+
     private LocalDateTime start;
 
     private LocalDateTime end;
@@ -28,6 +31,10 @@ public class AppointmentDTO implements Serializable {
     private boolean isScheduleGoogle;
 
     private String correos;
+
+    private String repeatType;
+
+    private LocalDate endRepeatDate;
 
 
 
@@ -141,5 +148,29 @@ public class AppointmentDTO implements Serializable {
 
     public void setCorreos(String correos) {
         this.correos = correos;
+    }
+
+    public String getDoctorId() {
+        return doctorId;
+    }
+
+    public void setDoctorId(String doctorId) {
+        this.doctorId = doctorId;
+    }
+
+    public String getRepeatType() {
+        return repeatType;
+    }
+
+    public void setRepeatType(String repeatType) {
+        this.repeatType = repeatType;
+    }
+
+    public LocalDate getEndRepeatDate() {
+        return endRepeatDate;
+    }
+
+    public void setEndRepeatDate(LocalDate endRepeatDate) {
+        this.endRepeatDate = endRepeatDate;
     }
 }

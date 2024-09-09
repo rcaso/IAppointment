@@ -22,6 +22,9 @@ public class Appointment extends BaseEntity {
     @Column(name = "therapist_id")
     private String therapistId;
 
+    @Column(name = "doctor_id")
+    private String doctorId;
+
     @Embedded
     private DateTimeRange timeRange;
 
@@ -35,11 +38,21 @@ public class Appointment extends BaseEntity {
         if (type.getValue().equals(newType.getValue())) return;
 
         type = newType;
-        if(type.equals(AppointmentType.EDUCATIONAL)){
-            therapistId=null;
-        } else {
-            teacherId=null;
+        switch (type){
+            case EDUCATIONAL -> {
+                therapistId=null;
+                doctorId=null;
+            }
+            case THERAPY -> {
+                teacherId=null;
+                doctorId=null;
+            }
+            case MEDICAL -> {
+                teacherId=null;
+                therapistId=null;
+            }
         }
+
     }
 
     public void updateTeacher(String newTeacherId){
@@ -53,6 +66,13 @@ public class Appointment extends BaseEntity {
         if(type.equals(AppointmentType.THERAPY) &&
                 (therapistId == null || !therapistId.equals(newTherapistId))){
             therapistId = newTherapistId;
+        }
+    }
+
+    public void updateDoctor(String newDoctorId){
+        if(type.equals(AppointmentType.MEDICAL)
+            && (doctorId == null || !doctorId.equals(newDoctorId))){
+            doctorId = newDoctorId;
         }
     }
 
@@ -161,5 +181,13 @@ public class Appointment extends BaseEntity {
 
     public void setAsistentes(String asistentes) {
         this.asistentes = asistentes;
+    }
+
+    public String getDoctorId() {
+        return doctorId;
+    }
+
+    public void setDoctorId(String doctorId) {
+        this.doctorId = doctorId;
     }
 }

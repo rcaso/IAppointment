@@ -1,8 +1,10 @@
 package com.shavatech.management.application.service;
 
+import com.shavatech.management.domain.entity.Doctor;
 import com.shavatech.management.domain.entity.Patient;
 import com.shavatech.management.domain.entity.Teacher;
 import com.shavatech.management.domain.entity.Therapist;
+import com.shavatech.management.domain.repository.DoctorRepository;
 import com.shavatech.management.domain.repository.PatientRepository;
 import com.shavatech.management.domain.repository.TeacherRepository;
 import com.shavatech.management.domain.repository.TherapistRepository;
@@ -30,6 +32,8 @@ public class PeopleResource {
     TeacherRepository teacherRepository;
     @Inject
     TherapistRepository therapistRepository;
+    @Inject
+    DoctorRepository doctorRepository;;
 
     @Path("/patients")
     @GET
@@ -62,5 +66,16 @@ public class PeopleResource {
             therapistMap.put(p.getFullName(),p.getId());
         });
         return therapistMap;
+    }
+
+    @Path("/doctors")
+    @GET
+    public Map<String,String> getDoctors(){
+        List<Doctor> doctors = doctorRepository.findAll().list();
+        Map<String,String>doctorstMap = new HashMap<>();
+        doctors.forEach(p->{
+            doctorstMap.put(p.getFullName(),p.getId());
+        });
+        return doctorstMap;
     }
 }

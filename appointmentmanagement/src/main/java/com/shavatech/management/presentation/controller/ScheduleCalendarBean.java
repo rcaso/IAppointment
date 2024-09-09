@@ -5,6 +5,7 @@ import com.shavatech.management.application.dto.SchedulePatientDTO;
 import com.shavatech.management.application.service.PeopleResource;
 import com.shavatech.management.application.service.SchedulePatientResource;
 import com.shavatech.management.domain.entity.AppointmentType;
+import com.shavatech.management.domain.entity.RepeatType;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
@@ -48,11 +49,16 @@ public class ScheduleCalendarBean implements Serializable {
 
     private Map<String,String> therapists;
 
+    private  Map<String,String> doctors;
+
+    private List<String> hours;
+
     @PostConstruct
     public void loadSchedule() {
         patients = peopleResource.getPatients();
         teachers = peopleResource.getTeachers();
         therapists = peopleResource.getTherapists();
+        doctors = peopleResource.getDoctors();
         schedulePatientDTO = new SchedulePatientDTO();
         schedulePatientDTO.setYear(LocalDate.now().getYear());
         model = createSchedule(appointmentDTOS);
@@ -84,11 +90,18 @@ public class ScheduleCalendarBean implements Serializable {
                             +"-"+currentAppointmentDTO.getEnd().format(DateTimeFormatter.ofPattern("HH:mm"))+"->"+k);
                 }
             });
-         } else {
+         } else if (currentAppointmentDTO.getAppointmentType().equals(AppointmentType.EDUCATIONAL.getValue())){
             teachers.forEach((k,v)->{
                 if (v.equals(currentAppointmentDTO.getTeacherId())){
                     currentAppointmentDTO.setTitle(currentAppointmentDTO.getStart().format(DateTimeFormatter.ofPattern("HH:mm"))
                             +"-"+currentAppointmentDTO.getEnd().format(DateTimeFormatter.ofPattern("HH:mm"))+"->"+k);
+                }
+            });
+        } else {
+            doctors.forEach((k,v)->{
+                if (v.equals(currentAppointmentDTO.getDoctorId())){
+                    currentAppointmentDTO.setTitle(currentAppointmentDTO.getStart().format(DateTimeFormatter.ofPattern("HH:mm"))
+                    +"-"+currentAppointmentDTO.getEnd().format(DateTimeFormatter.ofPattern("HH:mm"))+"->"+k);
                 }
             });
         }
@@ -132,6 +145,7 @@ public class ScheduleCalendarBean implements Serializable {
             appointmentDTO = (AppointmentDTO)event.getData();
         } else {
             appointmentDTO = new AppointmentDTO();
+            appointmentDTO.setRepeatType(RepeatType.NO.getValue());
             appointmentDTO.setStart(event.getStartDate());
             appointmentDTO.setEnd(event.getEndDate());
         }
@@ -210,5 +224,17 @@ public class ScheduleCalendarBean implements Serializable {
 
     public void setTherapists(Map<String, String> therapists) {
         this.therapists = therapists;
+    }
+
+    public Map<String, String> getDoctors() {
+        return doctors;
+    }
+
+    public List<String> getHours() {
+        return hours;
+    }
+
+    public void setHours(List<String> hours) {
+        this.hours = hours;
     }
 }
