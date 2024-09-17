@@ -16,7 +16,9 @@ import java.util.List;
 @ViewScoped
 public class MedicalCalendarBean implements Serializable {
 
-     private ScheduleModel model;
+
+
+    private ScheduleModel model;
 
      private List<AppointmentDTO> appointments;
 

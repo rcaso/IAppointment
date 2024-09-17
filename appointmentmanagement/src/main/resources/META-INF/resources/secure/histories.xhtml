@@ -1,0 +1,81 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:f="jakarta.faces.core"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="../template/template.xhtml">
+    <ui:define name="title">Historial de Diagnosticos</ui:define>
+    <f:metadata>
+        <f:viewAction action="#{patientHistoryBean.initHistories()}"/>
+    </f:metadata>
+    <ui:define name="content">
+        <h:form id="history">
+            <div class="col-12">
+                <div class="card">
+                    <p:panel header="Paciente" styleClass="mb-6">
+                        <p:selectOneMenu id="patient" value="#{patientHistoryBean.patientHistoryDTO.patientId}">
+                            <p:ajax process="@this" listener="#{patientHistoryBean.searchPatientHistory()}" update="history"/>
+                            <f:selectItem itemLabel="Seleccione" itemValue=""/>
+                            <f:selectItems value="#{patientHistoryBean.patients}"/>
+                        </p:selectOneMenu>
+                        <f:facet name="actions">
+                            <p:button value="Nuevo diagnostico" rendered="#{patientHistoryBean.patientHistoryDTO.patientId != null}" icon="pi pi-address-book" title="Nuevo" styleClass="shadow-1 mb-3 mr-2" outcome="/secure/diagnosis">
+                                <f:param name="patientId" value="#{patientHistoryBean.patientHistoryDTO.patientId}"/>
+                            </p:button>
+                        </f:facet>
+                    </p:panel>
+                 </div>
+
+            </div>
+            <div class="col-12">
+                <div class="card">
+                    <h5>Diagnosticos</h5>
+                    <p:dataTable id="tdiagnosticos" var="diagnostico" value="#{patientHistoryBean.patientHistoryDTO.diagnosis}" paginator="true" rows="20" paginatorPosition="bottom" rowKey="#{diagnostico.id}">
+                        <f:facet name="header">
+                            Detalle de visita a Medicos
+                        </f:facet>
+                        <p:column style="width:2rem" ariaHeaderText="Row Toggler">
+                            <p:rowToggler/>
+                        </p:column>
+                        <p:column headerText="Diagnostico">
+                            <h:outputText value="#{diagnostico.description}"/>
+                        </p:column>
+                        <p:column headerText="Fecha de Atencion" sortBy="#{diagnostico.diagnosisDate}">
+                            <h:outputText value="#{diagnostico.diagnosisDate}">
+                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm" type="localDateTime" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Doctor">
+                            <h:outputText value="#{diagnostico.doctorName}"/>
+                        </p:column>
+                        <p:column headerText="Editar">
+                            <p:link value="Actualizar" outcome="/secure/diagnosis">
+                                <f:param name="patientId" value="#{patientHistoryBean.patientHistoryDTO.patientId}"/>
+                                <f:param name="diagnosticoId" value="#{diagnostico.id}"/>
+                            </p:link>
+                        </p:column>
+                        <p:rowExpansion>
+                            <div class="orders-subtable">
+                                <h5>Prescripcion Medica</h5>
+                                <p:dataTable var="prescripcion" value="#{diagnostico.prescriptions}" reflow="true" rowKey="#{prescripcion.id}">
+                                    <p:column headerText="Medicina">
+                                        <h:outputText value="#{prescripcion.drug}"/>
+                                    </p:column>
+                                    <p:column headerText="Dosis">
+                                        <h:outputText value="#{prescripcion.dose}"/>
+                                    </p:column>
+                                    <p:column headerText="Frecuencia">
+                                        <h:outputText value="#{prescripcion.frequency}"/>
+                                    </p:column>
+                                    <p:column headerText="Duracion">
+                                        <h:outputText value="#{prescripcion.duration}"/>
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
+                        </p:rowExpansion>
+                    </p:dataTable>
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+</ui:composition>
