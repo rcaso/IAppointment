@@ -4,6 +4,7 @@ import com.shavatech.domain.BaseEntity;
 import jakarta.persistence.*;
 
 @Entity
+@Cacheable
 public class Prescription extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)

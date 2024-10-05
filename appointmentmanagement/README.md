@@ -75,10 +75,10 @@ Easily start your Reactive RESTful Web Services
 ### Crear Imagen Java
 Comando para crear imagen docker para arm64(raspberry pi 4)
 ```shell script
-./mvnw clean package install -DskipTests -Dquarkus.container-image.build=true -Dquarkus.container-image.group=rcasov -Dquarkus.container-image.name=appointmentmanager -Dquarkus.container-image.tag=1.6 -Dquarkus.docker.buildx.platform=linux/arm64
+./mvnw clean package install -DskipTests -Dquarkus.container-image.build=true -Dquarkus.container-image.group=rcasov -Dquarkus.container-image.name=appointmentmanager -Dquarkus.container-image.tag=1.7 -Dquarkus.docker.buildx.platform=linux/arm64
 ```
 ### Push image dockehub
 Comando push imagen docker para arm64(raspberry pi 4)
 ```shell script
-./mvnw install -DskipTests -Dquarkus.container-image.push=true -Dquarkus.container-image.group=rcasov -Dquarkus.container-image.name=appointmentmanager -Dquarkus.container-image.tag=1.6  -Dquarkus.container-image.username=rcasov -Dquarkus.container-image.password=sistemas10
+./mvnw install -DskipTests -Dquarkus.container-image.push=true -Dquarkus.container-image.group=rcasov -Dquarkus.container-image.name=appointmentmanager -Dquarkus.container-image.tag=1.7  -Dquarkus.container-image.username=rcasov -Dquarkus.container-image.password=sistemas10
 ```
