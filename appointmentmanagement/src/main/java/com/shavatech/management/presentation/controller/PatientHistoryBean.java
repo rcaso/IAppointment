@@ -56,12 +56,18 @@ public class PatientHistoryBean implements Serializable {
         doctors = peopleResource.getDoctors();
         patients = peopleResource.getPatients();
         if(diagnosisId != null){
+            //Modficacion de algun diagnostico
             patientHistoryDTO.getDiagnosis().forEach(d -> {
                 if(d.getId().equals(diagnosisId)){
                     currentDiagnosisDTO = d;
                 }
             });
         } else {
+            //Si es nuevo diagnostico hay que referencial al historial
+            if(patientHistoryDTO != null) {
+                currentDiagnosisDTO.setHistoryId(patientHistoryDTO.getId());
+            }
+
             currentDiagnosisDTO.setPrescriptions(new ArrayList<PrescriptionDTO>());
         }
     }

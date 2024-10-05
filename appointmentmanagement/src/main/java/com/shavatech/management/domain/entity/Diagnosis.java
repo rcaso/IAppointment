@@ -3,12 +3,14 @@ package com.shavatech.management.domain.entity;
 import com.shavatech.domain.BaseEntity;
 import com.shavatech.management.domain.events.DiagnosisUpdatedEvent;
 import jakarta.persistence.*;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
+@Cacheable
 public class Diagnosis extends BaseEntity {
 
     @Column(length = 200)
@@ -28,6 +30,7 @@ public class Diagnosis extends BaseEntity {
     private PatientHistory patientHistory;
 
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "diagnosis")
+    @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private List<Prescription>  prescriptions;
 
     public void updateDiagnosis(Diagnosis diagnosis) {
