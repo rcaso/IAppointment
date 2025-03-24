@@ -34,7 +34,7 @@ public class PatientHistoryResource {
     @Path("/patient/{patient}")
     public PatientHistoryDTO getPatientHistory(@PathParam("patient") String patient){
         PatientHistoryDTO patientHistoryDTO = null;
-        PatientHistory patientHistory = patientHistoryRepository.findByPatientId(patient);
+        PatientHistory patientHistory = patientHistoryRepository.findByPatientIdJPQL(patient);
         if (patientHistory != null){
             patientHistoryDTO = patientHistoryMapper.toDTO(patientHistory);
         }

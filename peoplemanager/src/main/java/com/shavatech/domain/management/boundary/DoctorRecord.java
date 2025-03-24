@@ -1,4 +1,6 @@
 package com.shavatech.domain.management.boundary;
 
-public record DoctorRecord(String id, String name, String lastName) {
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public record DoctorRecord(@JsonProperty("id") String id,@JsonProperty("name") String name,@JsonProperty("lastName") String lastName) {
 }

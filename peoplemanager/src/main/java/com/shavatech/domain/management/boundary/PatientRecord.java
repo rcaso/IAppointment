@@ -1,6 +1,8 @@
 package com.shavatech.domain.management.boundary;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.time.LocalDate;
 
-public record PatientRecord(String id, String name, String lastName, LocalDate birthDay) {
+public record PatientRecord(@JsonProperty("id") String id, @JsonProperty("name") String name, @JsonProperty("lastName") String lastName,@JsonProperty("birthDay") LocalDate birthDay) {
 }

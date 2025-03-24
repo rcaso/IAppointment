@@ -14,7 +14,7 @@ public class PatientHistoryRepository implements PanacheRepository<PatientHistor
     }
 
     public PatientHistory findByPatientIdJPQL(String patientId) {
-        StringBuilder sQueryBuilder = new StringBuilder("select from PatientHistory p JOIN FETCH p.diagnoses d ");
+        StringBuilder sQueryBuilder = new StringBuilder("select distinct p from PatientHistory p JOIN FETCH p.diagnoses d  ");
         sQueryBuilder.append(" JOIN FETCH d.prescriptions pr where p.patient.id = :patientId ");
         var query = getEntityManager().createQuery(sQueryBuilder.toString(), PatientHistory.class);
         query.setParameter("patientId", patientId);

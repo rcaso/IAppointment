@@ -3,6 +3,7 @@ package com.shavatech.management.application.dto;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 public class DiagnosisDTO implements Serializable {
 
@@ -20,7 +21,7 @@ public class DiagnosisDTO implements Serializable {
 
     private String historyId;
 
-    private List<PrescriptionDTO> prescriptions;
+    private Set<PrescriptionDTO> prescriptions;
 
 
     public String getId() {
@@ -71,11 +72,11 @@ public class DiagnosisDTO implements Serializable {
         this.historyId = historyId;
     }
 
-    public List<PrescriptionDTO> getPrescriptions() {
+    public Set<PrescriptionDTO> getPrescriptions() {
         return prescriptions;
     }
 
-    public void setPrescriptions(List<PrescriptionDTO> prescriptions) {
+    public void setPrescriptions(Set<PrescriptionDTO> prescriptions) {
         this.prescriptions = prescriptions;
     }
 

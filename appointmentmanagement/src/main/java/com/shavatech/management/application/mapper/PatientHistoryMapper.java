@@ -10,6 +10,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 
 import java.io.Serializable;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class PatientHistoryMapper implements Serializable {
@@ -37,7 +38,7 @@ public class PatientHistoryMapper implements Serializable {
                     prescriptionDTO.setFrequency(p.getFrequency());
                     prescriptionDTO.setDuration(p.getDuration());
                     return prescriptionDTO;
-                }).toList());
+                }).collect(Collectors.toSet()));
                 return diagnosisDTO;
             }).toList()
         );
@@ -76,7 +77,7 @@ public class PatientHistoryMapper implements Serializable {
             prescription.setFrequency(p.getFrequency());
             prescription.setDuration(p.getDuration());
             return prescription;
-        }).toList());
+        }).collect(Collectors.toSet()));
         return diagnosis;
     }
 }

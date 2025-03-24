@@ -8,6 +8,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Cacheable
@@ -31,7 +32,7 @@ public class Diagnosis extends BaseEntity {
 
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "diagnosis")
     @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    private List<Prescription>  prescriptions;
+    private Set<Prescription> prescriptions;
 
     public void updateDiagnosis(Diagnosis diagnosis) {
         this.description = diagnosis.getDescription();
@@ -42,7 +43,7 @@ public class Diagnosis extends BaseEntity {
         getEvents().add(new DiagnosisUpdatedEvent(this));
     }
 
-    public void updatePrescriptions(List<Prescription> prescriptions) {
+    public void updatePrescriptions(Set<Prescription> prescriptions) {
         List<Prescription> actualizar = prescriptions.stream().filter(p-> p.getId()!=null).toList();
         List<Prescription> nuevos = prescriptions.stream().filter(p-> p.getId() == null).toList();
         this.prescriptions.forEach(prescription -> {
@@ -95,11 +96,11 @@ public class Diagnosis extends BaseEntity {
         this.appointmentId = appointmentId;
     }
 
-    public List<Prescription> getPrescriptions() {
+    public Set<Prescription> getPrescriptions() {
         return prescriptions;
     }
 
-    public void setPrescriptions(List<Prescription> prescriptions) {
+    public void setPrescriptions(Set<Prescription> prescriptions) {
         this.prescriptions = prescriptions;
     }
 
