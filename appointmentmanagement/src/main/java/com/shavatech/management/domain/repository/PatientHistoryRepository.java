@@ -19,7 +19,7 @@ public class PatientHistoryRepository implements PanacheRepository<PatientHistor
         var query = getEntityManager().createQuery(sQueryBuilder.toString(), PatientHistory.class);
         query.setParameter("patientId", patientId);
         var rows = query.getResultList();
-        return rows!= null? rows.get(0):null;
+        return (rows!= null && !rows.isEmpty())? rows.get(0):null;
         //return find("patient.id", patientId).firstResult();
     }
 

@@ -190,4 +190,21 @@ public class Appointment extends BaseEntity {
     public void setDoctorId(String doctorId) {
         this.doctorId = doctorId;
     }
+
+    @Override
+    public String toString() {
+        return "Appointment{" +
+                "id=" + getId() +
+                ", type=" + type +
+                ", title='" + title + '\'' +
+                ", schedulePatient=" + schedulePatient +
+                ", teacherId='" + teacherId + '\'' +
+                ", therapistId='" + therapistId + '\'' +
+                ", doctorId='" + doctorId + '\'' +
+                ", timeRange=" + timeRange +
+                ", isConflicted=" + isConflicted +
+                ", isScheduledGoogle=" + isScheduledGoogle +
+                ", asistentes='" + asistentes + '\'' +
+                '}';
+    }
 }

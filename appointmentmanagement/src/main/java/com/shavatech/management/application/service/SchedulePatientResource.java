@@ -64,6 +64,7 @@ public class SchedulePatientResource {
         schedule.addRepeatNewAppointment(appointment,RepeatType.of(appointmentDTO.getRepeatType()),appointmentDTO.getEndRepeatDate());
         //schedule.addNewAppointment(appointment);
         schedulePatientRepository.update(schedule);
+        schedulePatientRepository.flush();
     }
 
     @PUT
@@ -94,6 +95,7 @@ public class SchedulePatientResource {
         SchedulePatient schedule = schedulePatientRepository.find("id= ?1",UUID.fromString(scheduleId)).firstResult();
         if(schedule.deleteAppointment(UUID.fromString(appointmentId))){
             schedulePatientRepository.update(schedule);
+            schedulePatientRepository.flush();
             logger.info("Cita eliminada:"+appointmentId);
         }
     }

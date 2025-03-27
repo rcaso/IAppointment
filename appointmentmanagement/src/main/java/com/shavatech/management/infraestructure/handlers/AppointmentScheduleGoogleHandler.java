@@ -7,8 +7,10 @@ import com.shavatech.management.domain.events.AppointmentGoogleDeleteEvent;
 import com.shavatech.management.domain.events.AppointmentGoogleUpdatedEvent;
 import com.shavatech.management.domain.events.AppointmentScheduledEvent;
 import com.shavatech.management.domain.repository.GoogleCalendarEventsRepository;
-import com.shavatech.management.infraestructure.google.Override;
+import com.shavatech.management.domain.repository.SchedulePatientRepository;
 import com.shavatech.management.infraestructure.google.*;
+import com.shavatech.management.infraestructure.google.Override;
+import com.shavatech.management.infraestructure.websocket.ThreadLocalContextHolder;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;
 import jakarta.enterprise.event.TransactionPhase;
@@ -29,6 +31,7 @@ public class AppointmentScheduleGoogleHandler {
 
     private static final Logger logger = Logger.getLogger(AppointmentScheduleGoogleHandler.class.getName());
 
+
     @Inject
     @RestClient
     GoogleCalendarClient googleCalendarClient;
@@ -36,17 +39,23 @@ public class AppointmentScheduleGoogleHandler {
     @Inject
     GoogleCalendarEventsRepository googleCalendarEventsRepository;
 
+    @Inject
+    SchedulePatientRepository  schedulePatientRepository;
+
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     public void handle(@Observes(during = TransactionPhase.AFTER_SUCCESS) AppointmentScheduledEvent event){
         Appointment appointment = event.getAppointmentScheduled();
-        if (appointment.getIsScheduledGoogle().getValue().equals(YesNoType.YES.getValue())) {
+        String accessToken = ThreadLocalContextHolder.get("accessToken");
+        logger.info("access token: " + accessToken);
+        if (appointment.getIsScheduledGoogle().getValue().equals(YesNoType.YES.getValue()) && accessToken !=null) {
             try {
-            logger.info("Agregar Cita Google Calendar :"+appointment.getTitle());
+            logger.info("Agregar Cita Google Calendar :"+appointment.getTitle()+" -> "+appointment.toString());
             var googleEvent = createGoogleEvent(appointment);
-            JsonObject result = googleCalendarClient.addEvent("all",googleEvent);
+            JsonObject result = googleCalendarClient.addEvent(accessToken,"all",googleEvent);
             String idGoogleEvent = result.getString("id");
             String htmlLink = result.getString("htmlLink");
-            String appointmentId = appointment.getId().toString();
+            var appIdRequeried = schedulePatientRepository.getAppointmentByTitle(appointment.getTitle(), appointment.getSchedulePatient().getId()).firstResult();
+            String appointmentId = appIdRequeried.getId().toString();
             GoogleCalendarEvents calendarEvents = new GoogleCalendarEvents();
             calendarEvents.setIdGoogleEvent(idGoogleEvent);
             calendarEvents.setIdAppointment(appointmentId);
@@ -63,6 +72,9 @@ public class AppointmentScheduleGoogleHandler {
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     public void handle(@Observes(during = TransactionPhase.AFTER_SUCCESS) AppointmentGoogleUpdatedEvent event) {
         Appointment appointment = event.getGoogleConfigurated();
+        String accessToken = ThreadLocalContextHolder.get("accessToken");
+        logger.info("iniciando la modificacion de appointment en Google Calendar : "+appointment.getTitle());
+        logger.info("access token: " + accessToken);
         try {
             logger.info("Actualizar Cita Google Calendar: " + appointment.getTitle());
             var calendarEvent = googleCalendarEventsRepository.getGoogleEventFromAppointment(appointment.getId().toString());
@@ -70,13 +82,13 @@ public class AppointmentScheduleGoogleHandler {
                 //actualiza Calendar
                 String googleEventId = calendarEvent.getIdGoogleEvent();
                 var googleEvent = createGoogleEvent(appointment);
-                JsonObject result = googleCalendarClient.updateEvent(googleEventId,googleEvent);
+                JsonObject result = googleCalendarClient.updateEvent(accessToken,googleEventId,googleEvent);
                 String htmlLink = result.getString("htmlLink");
                 logger.info("evento actualizado en Google Calendar : "+htmlLink);
             } else {
                 // se creo la cita anteriormente sin agendar en Google
                 var googleEvent = createGoogleEvent(appointment);
-                JsonObject result = googleCalendarClient.addEvent("all",googleEvent);
+                JsonObject result = googleCalendarClient.addEvent(accessToken,"all",googleEvent);
                 String idGoogleEvent = result.getString("id");
                 String htmlLink = result.getString("htmlLink");
                 String appointmentId = appointment.getId().toString();
@@ -97,13 +109,22 @@ public class AppointmentScheduleGoogleHandler {
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     public void handle(@Observes(during = TransactionPhase.AFTER_SUCCESS) AppointmentGoogleDeleteEvent event) {
         var appointment = event.getGoogleDelete();
+        String accessToken = ThreadLocalContextHolder.get("accessToken");
+        logger.info("iniciando el borrar appointment en Google Calendar : "+appointment.getTitle());
+        logger.info("access token: " + accessToken);
         try {
             logger.info("Borrar Cita Google Calendar: " + appointment.getTitle());
             var calendarEvent = googleCalendarEventsRepository.getGoogleEventFromAppointment(appointment.getId().toString());
-            String googleEventId = calendarEvent.getIdGoogleEvent();
-            googleCalendarClient.deleteEvent("all",googleEventId);
-            googleCalendarEventsRepository.delete(appointment.getId().toString());
-            logger.info("evento borrado en Google Calendar : "+googleEventId);
+            if(calendarEvent != null){
+                String googleEventId = calendarEvent.getIdGoogleEvent();
+                googleCalendarClient.deleteEvent(accessToken,"all",googleEventId);
+                googleCalendarEventsRepository.delete(appointment.getId().toString());
+                logger.info("evento borrado en Google Calendar : "+googleEventId);
+            } else {
+                logger.info("evento no existe para ser borrado en Google Calendar");
+            }
+
+
         } catch (Exception exception) {
             logger.log(Level.ERROR, exception.getMessage());
             exception.printStackTrace();
