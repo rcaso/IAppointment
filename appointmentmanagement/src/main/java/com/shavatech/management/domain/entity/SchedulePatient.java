@@ -5,7 +5,6 @@ import com.shavatech.domain.DateTimeRange;
 import com.shavatech.management.domain.events.AppointmentGoogleDeleteEvent;
 import com.shavatech.management.domain.events.AppointmentScheduledEvent;
 import jakarta.persistence.*;
-import org.apache.poi.ss.formula.functions.Days;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -23,7 +22,7 @@ public class SchedulePatient extends AggregateRoot {
     @JoinColumn(name = "patient_id")
     private Patient patient;
 
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Appointment> appointments;
 
     @Column(name = "year_period")
@@ -36,7 +35,7 @@ public class SchedulePatient extends AggregateRoot {
         getEvents().add(new AppointmentScheduledEvent(appointment));
     }
 
-    public void addRepeatNewAppointment(Appointment appointment, RepeatType repeatType, LocalDate endDate ){
+    public void  addRepeatNewAppointment(Appointment appointment, RepeatType repeatType, LocalDate endDate ){
         if(repeatType != null && repeatType != RepeatType.NO && endDate != null){
             //Registramos para cita base
             addNewAppointment(appointment);

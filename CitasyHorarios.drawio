@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2024-09-12T15:22:58.440Z" agent="Mozilla/5.0 (X11; Linux x86_64; rv:130.0) Gecko/20100101 Firefox/130.0" etag="jK2Y9qCIpXo2_mmgqfo9" version="24.2.7" type="device">
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:134.0) Gecko/20100101 Firefox/134.0" version="24.7.14" pages="2">
   <diagram id="1wQzsUYv8DGshhQA8DcK" name="Página-1">
     <mxGraphModel dx="2074" dy="1286" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -555,6 +555,98 @@
         </mxCell>
         <mxCell id="Eb41rm3-mO_iX7q0-oNB-67" value="Medicinas" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
           <mxGeometry x="1260" y="1490" width="110" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="mJ_vpwQmg7g8OnKZVvwJ" name="Cloud">
+    <mxGraphModel dx="2901" dy="1281" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="l1z3EztBFDyShDqEjFgZ-30" value="Eventos" style="html=1;outlineConnect=0;whiteSpace=wrap;shape=mxgraph.archimate3.application;appType=grouping;archiType=square;dashed=1;fillColor=none;labelPosition=center;verticalLabelPosition=top;align=center;verticalAlign=bottom;" vertex="1" parent="1">
+          <mxGeometry x="680" y="330" width="630" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="l1z3EztBFDyShDqEjFgZ-2" value="Azure / AWS" style="html=1;outlineConnect=0;whiteSpace=wrap;shape=mxgraph.archimate3.application;appType=grouping;archiType=square;dashed=1;fillColor=none;labelPosition=center;verticalLabelPosition=top;align=center;verticalAlign=bottom;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="44" y="80" width="370" height="250" as="geometry" />
+        </mxCell>
+        <mxCell id="l1z3EztBFDyShDqEjFgZ-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="l1z3EztBFDyShDqEjFgZ-3" target="l1z3EztBFDyShDqEjFgZ-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l1z3EztBFDyShDqEjFgZ-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;startArrow=classic;startFill=1;" edge="1" parent="1" source="l1z3EztBFDyShDqEjFgZ-3" target="l1z3EztBFDyShDqEjFgZ-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l1z3EztBFDyShDqEjFgZ-24" value="WS" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="l1z3EztBFDyShDqEjFgZ-22">
+          <mxGeometry x="-0.1818" relative="1" as="geometry">
+            <mxPoint y="1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="l1z3EztBFDyShDqEjFgZ-3" value="PeopleManagerWeb" style="html=1;outlineConnect=0;whiteSpace=wrap;fillColor=#99ffff;shape=mxgraph.archimate3.application;appType=comp;archiType=square;" vertex="1" parent="1">
+          <mxGeometry x="140" y="120" width="210" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="l1z3EztBFDyShDqEjFgZ-4" value="AppointmentManagementWeb" style="html=1;outlineConnect=0;whiteSpace=wrap;fillColor=#99ffff;shape=mxgraph.archimate3.application;appType=comp;archiType=square;" vertex="1" parent="1">
+          <mxGeometry x="140" y="230" width="210" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="l1z3EztBFDyShDqEjFgZ-5" value="Google OpenIdConnect" style="html=1;outlineConnect=0;whiteSpace=wrap;fillColor=#99ffff;shape=mxgraph.archimate3.application;appType=comp;archiType=square;" vertex="1" parent="1">
+          <mxGeometry x="154" y="390" width="150" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="l1z3EztBFDyShDqEjFgZ-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="l1z3EztBFDyShDqEjFgZ-4" target="l1z3EztBFDyShDqEjFgZ-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l1z3EztBFDyShDqEjFgZ-8" value="Home Onpremise" style="html=1;outlineConnect=0;whiteSpace=wrap;shape=mxgraph.archimate3.application;appType=grouping;archiType=square;dashed=1;fillColor=none;labelPosition=center;verticalLabelPosition=top;align=center;verticalAlign=bottom;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="520" y="40" width="890" height="560" as="geometry" />
+        </mxCell>
+        <mxCell id="l1z3EztBFDyShDqEjFgZ-36" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="l1z3EztBFDyShDqEjFgZ-9" target="l1z3EztBFDyShDqEjFgZ-25">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l1z3EztBFDyShDqEjFgZ-9" value="PeopleManager" style="html=1;outlineConnect=0;whiteSpace=wrap;fillColor=#99ffff;shape=mxgraph.archimate3.application;appType=comp;archiType=square;" vertex="1" parent="1">
+          <mxGeometry x="680" y="120" width="210" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="l1z3EztBFDyShDqEjFgZ-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="l1z3EztBFDyShDqEjFgZ-11" target="l1z3EztBFDyShDqEjFgZ-13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l1z3EztBFDyShDqEjFgZ-11" value="Usuario" style="html=1;outlineConnect=0;whiteSpace=wrap;fillColor=#ffff99;verticalLabelPosition=bottom;verticalAlign=top;align=center;shape=mxgraph.archimate3.actor;" vertex="1" parent="1">
+          <mxGeometry x="-250" y="160" width="26.5" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="l1z3EztBFDyShDqEjFgZ-12" value="Usuario" style="html=1;outlineConnect=0;whiteSpace=wrap;fillColor=#ffff99;shape=mxgraph.archimate3.application;appType=role;archiType=square;" vertex="1" parent="1">
+          <mxGeometry x="-100" y="240" width="110" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="l1z3EztBFDyShDqEjFgZ-21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="l1z3EztBFDyShDqEjFgZ-13" target="l1z3EztBFDyShDqEjFgZ-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l1z3EztBFDyShDqEjFgZ-13" value="Administrador" style="html=1;outlineConnect=0;whiteSpace=wrap;fillColor=#ffff99;shape=mxgraph.archimate3.application;appType=role;archiType=square;" vertex="1" parent="1">
+          <mxGeometry x="-100" y="120" width="110" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="l1z3EztBFDyShDqEjFgZ-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="l1z3EztBFDyShDqEjFgZ-11" target="l1z3EztBFDyShDqEjFgZ-12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l1z3EztBFDyShDqEjFgZ-23" value="WS" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;startArrow=classic;startFill=1;" edge="1" parent="1" source="l1z3EztBFDyShDqEjFgZ-4" target="l1z3EztBFDyShDqEjFgZ-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l1z3EztBFDyShDqEjFgZ-29" value="Datos" style="html=1;outlineConnect=0;whiteSpace=wrap;shape=mxgraph.archimate3.application;appType=grouping;archiType=square;dashed=1;fillColor=none;labelPosition=center;verticalLabelPosition=top;align=center;verticalAlign=bottom;" vertex="1" parent="1">
+          <mxGeometry x="680" y="440" width="640" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="l1z3EztBFDyShDqEjFgZ-28" value="MariaDB" style="html=1;outlineConnect=0;whiteSpace=wrap;fillColor=#99ffff;shape=mxgraph.archimate3.application;appType=comp;archiType=square;" vertex="1" parent="1">
+          <mxGeometry x="940" y="460" width="150" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="l1z3EztBFDyShDqEjFgZ-34" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="l1z3EztBFDyShDqEjFgZ-10" target="l1z3EztBFDyShDqEjFgZ-28">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l1z3EztBFDyShDqEjFgZ-35" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.25;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="l1z3EztBFDyShDqEjFgZ-9" target="l1z3EztBFDyShDqEjFgZ-28">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="840" y="471" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="l1z3EztBFDyShDqEjFgZ-37" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="l1z3EztBFDyShDqEjFgZ-10" target="l1z3EztBFDyShDqEjFgZ-25">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="l1z3EztBFDyShDqEjFgZ-10" value="AppointmentManagement" style="html=1;outlineConnect=0;whiteSpace=wrap;fillColor=#99ffff;shape=mxgraph.archimate3.application;appType=comp;archiType=square;" vertex="1" parent="1">
+          <mxGeometry x="680" y="220" width="210" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="l1z3EztBFDyShDqEjFgZ-25" value="RabbitMQ" style="html=1;outlineConnect=0;whiteSpace=wrap;fillColor=#99ffff;shape=mxgraph.archimate3.application;appType=comp;archiType=square;" vertex="1" parent="1">
+          <mxGeometry x="1120" y="345" width="150" height="45" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
