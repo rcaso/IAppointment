@@ -9,9 +9,13 @@ import io.quarkus.websockets.next.WebSocketClientConnection;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 @ApplicationScoped
 public class DispatchController {
 
+    private static final Logger LOG = Logger.getLogger(DispatchController.class.getName());
 
     @Inject
     DoctorResource doctorResource;
@@ -31,7 +35,12 @@ public class DispatchController {
                 switch (command.getCommandType()){
                     case LIST -> {
                         command.setDoctors(doctorResource.getAll());
-                        connection.sendTextAndAwait(command);
+                        if(connection!= null && connection.isOpen()){
+                            connection.sendTextAndAwait(command);
+                        } else {
+                            LOG.log(Level.SEVERE, "No se puede enviar listado de doctores porque la conexion esta cerrada");
+                        }
+
                     }
                     case CREATE -> {
                         doctorResource.createDoctor(command.getDoctor());
@@ -45,7 +54,12 @@ public class DispatchController {
                 switch (command.getCommandType()){
                     case LIST -> {
                         command.setPatients(patientResource.getAll());
-                        connection.sendTextAndAwait(command);
+                        if(connection!= null && connection.isOpen()){
+                            connection.sendTextAndAwait(command);
+                        } else {
+                            LOG.log(Level.SEVERE,"No se puede enviar listado de patients porque la conexion esta cerrada");
+                        }
+
                     }
                     case CREATE -> {
                         patientResource.createPatient(command.getPatient());
@@ -59,7 +73,11 @@ public class DispatchController {
                 switch (command.getCommandType()){
                     case LIST -> {
                         command.setTeachers(teacherResource.getAll());
-                        connection.sendTextAndAwait(command);
+                        if(connection!= null && connection.isOpen()){
+                            connection.sendTextAndAwait(command);
+                        } else  {
+                            LOG.log(Level.SEVERE,"No se puede enviar los teachers porque la conexion esta cerrada");
+                        }
                     }
                     case CREATE -> {
                         teacherResource.createTeacher(command.getTeacher());
@@ -73,7 +91,11 @@ public class DispatchController {
                 switch (command.getCommandType()){
                     case LIST -> {
                         command.setTherapists(therapistResource.getAll());
-                        connection.sendTextAndAwait(command);
+                        if(connection!= null && connection.isOpen()){
+                            connection.sendTextAndAwait(command);
+                        } else  {
+                            LOG.log(Level.SEVERE,"No se puede enviar listado de therapists porque la conexion esta cerrada");
+                        }
                     }
                     case CREATE -> {
                         therapistResource.createTherapist(command.getTherapist());
