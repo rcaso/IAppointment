@@ -27,8 +27,7 @@ public class WebSocketHandler {
     @PostConstruct
     public void init(){
         LOG.info("init websocket client startup");
-        WebSocketClientConnection connection = connector
-                .baseUri(myUri)
-                .connectAndAwait();
+        //WebSocketClientConnection connection =
+        connector.baseUri(myUri).connectAndAwait();
     }
 }

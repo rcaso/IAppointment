@@ -119,5 +119,19 @@ public class BackEndCommand implements Serializable {
         this.commandType = commandType;
     }
 
-
+    @Override
+    public String toString() {
+        return "BackEndCommand{" +
+                "commandManagement=" + commandManagement +
+                ", commandType=" + commandType +
+                ", doctors=" + doctors +
+                ", patients=" + patients +
+                ", therapists=" + therapists +
+                ", teachers=" + teachers +
+                ", doctor=" + doctor +
+                ", patient=" + patient +
+                ", therapist=" + therapist +
+                ", teacher=" + teacher +
+                '}';
+    }
 }
