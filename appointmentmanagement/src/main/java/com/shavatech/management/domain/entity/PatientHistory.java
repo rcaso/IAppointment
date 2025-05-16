@@ -9,6 +9,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import java.util.List;
 
 @Entity
+@NamedEntityGraph(name = "PatientHistory.diagnoses",attributeNodes = @NamedAttributeNode("diagnoses"))
 @Table(name = "patient_history")
 @Cacheable
 public class PatientHistory extends AggregateRoot {
