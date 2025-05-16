@@ -77,7 +77,7 @@ public class PatientHistoryMapper implements Serializable {
             prescription.setFrequency(p.getFrequency());
             prescription.setDuration(p.getDuration());
             return prescription;
-        }).collect(Collectors.toSet()));
+        }).collect(Collectors.toList()));
         return diagnosis;
     }
 }
