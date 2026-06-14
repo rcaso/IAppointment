@@ -3,7 +3,7 @@ package com.shavatech.management.domain.entity;
 import java.util.Arrays;
 
 public enum RepeatType {
-    NO("N"),DIARY("D"),WEEKLY("W");
+    NO("N"),DIARY("D"),WEEKLY("W"),MULTIPLE("M");
 
     private String value;
 

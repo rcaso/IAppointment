@@ -47,7 +47,7 @@ public class AppointmentScheduleGoogleHandler {
         Appointment appointment = event.getAppointmentScheduled();
         String accessToken = ThreadLocalContextHolder.get("accessToken");
         logger.info("access token: " + accessToken);
-        if (appointment.getIsScheduledGoogle().getValue().equals(YesNoType.YES.getValue()) && accessToken !=null) {
+        if (accessToken !=null) {
             try {
             logger.info("Agregar Cita Google Calendar :"+appointment.getTitle()+" -> "+appointment.toString());
             var googleEvent = createGoogleEvent(appointment);
@@ -139,15 +139,14 @@ public class AppointmentScheduleGoogleHandler {
         DateTimeEvent end = new DateTimeEvent(appointment.getTimeRange().getEnd().plusSeconds(5).toString());
         googleEvent.setEnd(end);
         List<Attendee> attendees = new ArrayList<>();
+        // default invitados al evento
+        attendees.add(new Attendee("feve18@gmail.com"));
+        attendees.add(new Attendee("anbaal@gmail.com"));
         if(appointment.getAsistentes() != null && !appointment.getAsistentes().isBlank()){
             String[] correos = appointment.getAsistentes().split(",");
             for(int i =0; i< correos.length; i++){
                 attendees.add(new Attendee(correos[i]));
             }
-        } else {
-            // default invitados al evento
-            attendees.add(new Attendee("feve18@gmail.com"));
-            attendees.add(new Attendee("anbaal@gmail.com"));
         }
         googleEvent.setAttendees(attendees);
         Reminders reminders = new Reminders();

@@ -3,6 +3,7 @@ package com.shavatech.management.application.dto;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class AppointmentDTO implements Serializable {
 
@@ -36,7 +37,7 @@ public class AppointmentDTO implements Serializable {
 
     private LocalDate endRepeatDate;
 
-
+    private List<LocalDate> multipleRepeatDate;
 
     public AppointmentDTO(String appointmentType, String title, String scheduleId, String teacherId, String therapistId, LocalDateTime start, LocalDateTime end, boolean isConflicted, boolean isScheduleGoogle) {
         this.appointmentType = appointmentType;
@@ -172,5 +173,13 @@ public class AppointmentDTO implements Serializable {
 
     public void setEndRepeatDate(LocalDate endRepeatDate) {
         this.endRepeatDate = endRepeatDate;
+    }
+
+    public List<LocalDate> getMultipleRepeatDate() {
+        return multipleRepeatDate;
+    }
+
+    public void setMultipleRepeatDate(List<LocalDate> multipleRepeatDate) {
+        this.multipleRepeatDate = multipleRepeatDate;
     }
 }
