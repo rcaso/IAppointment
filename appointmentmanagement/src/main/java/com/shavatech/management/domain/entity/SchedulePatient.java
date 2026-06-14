@@ -47,11 +47,30 @@ public class SchedulePatient extends AggregateRoot {
         }
     }
 
+    public void addRepeatNewMultipleAppointment(Appointment appointment, RepeatType repeatType, LocalDate endDate, List<LocalDate> multipleRepeatDate ){
+        if(repeatType == RepeatType.MULTIPLE && multipleRepeatDate != null && !multipleRepeatDate.isEmpty()){
+            //Registramos para cita base
+            addRepeatNewAppointment(appointment,repeatType,endDate);
+            //Calcular otros Appointments en base al inicial
+            var rangeMax = WEEKS.between(appointment.getTimeRange().getEnd().toLocalDate(),endDate);
+            for(LocalDate nextDate : multipleRepeatDate){
+                var newEndDate = nextDate.plusWeeks(rangeMax);
+                var newStartDateTime = LocalDateTime.of(nextDate,appointment.getTimeRange().getStart().toLocalTime());
+                var newEndDateTime = LocalDateTime.of(nextDate,appointment.getTimeRange().getEnd().toLocalTime());
+                var newTimeRange = new DateTimeRange(newStartDateTime,newEndDateTime);
+                var newAppointment = createNextAppointment(appointment,newTimeRange);
+                addRepeatNewAppointment(newAppointment,repeatType,newEndDate);
+            }
+        } else {
+            addRepeatNewAppointment(appointment,repeatType,endDate);
+        }
+    }
+
     private List<Appointment> generateNextAppointments(RepeatType repeatType,Appointment appointment, LocalDate endDate ){
         List<Appointment> nextDates = new ArrayList<>();
         LocalDate initialDate = appointment.getTimeRange().getEnd().toLocalDate();
         long rangeMax =0;
-        if(repeatType == RepeatType.WEEKLY){
+        if(repeatType == RepeatType.WEEKLY || repeatType == RepeatType.MULTIPLE){
             rangeMax = WEEKS.between(initialDate,endDate);
         } else {
             rangeMax = DAYS.between(initialDate,endDate);
@@ -59,7 +78,7 @@ public class SchedulePatient extends AggregateRoot {
         for(int i=1;i<=rangeMax;i++){
             Appointment newAppointment = null;
             DateTimeRange timeRange = null;
-            if(repeatType == RepeatType.WEEKLY){
+            if(repeatType == RepeatType.WEEKLY || repeatType == RepeatType.MULTIPLE){
                 LocalDateTime start = appointment.getTimeRange().getStart().plusWeeks(i);
                 LocalDateTime end = appointment.getTimeRange().getEnd().plusWeeks(i);
                 timeRange = new DateTimeRange(start, end);

@@ -61,7 +61,8 @@ public class SchedulePatientResource {
             schedulePatientRepository.persistAndFlush(schedule);
             schedule.setAppointments(new ArrayList<>());
         }
-        schedule.addRepeatNewAppointment(appointment,RepeatType.of(appointmentDTO.getRepeatType()),appointmentDTO.getEndRepeatDate());
+        schedule.addRepeatNewMultipleAppointment(appointment,RepeatType.of(appointmentDTO.getRepeatType()),appointmentDTO.getEndRepeatDate(),appointmentDTO.getMultipleRepeatDate());
+        //schedule.addRepeatNewAppointment(appointment,RepeatType.of(appointmentDTO.getRepeatType()),appointmentDTO.getEndRepeatDate());
         //schedule.addNewAppointment(appointment);
         schedulePatientRepository.update(schedule);
         schedulePatientRepository.flush();
